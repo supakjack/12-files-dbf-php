@@ -35,11 +35,11 @@ for ($i = 0; $i < $total_count; $i++) {
                         if ($index > 0) {
                             $columns = explode('|', $members);
                             dbase_add_record($db, array(
-                                iconv("UTF-8", "tis-620", $columns[0]),
-                                iconv("UTF-8", "tis-620", $columns[1]),
-                                iconv("UTF-8", "tis-620", $columns[2]),
-                                iconv("UTF-8", "tis-620", $columns[3]),
-                                iconv("UTF-8", "tis-620", $columns[4]),
+                                iconv("UTF-8", "windows-874", $columns[0]),
+                                iconv("UTF-8", "windows-874", $columns[1]),
+                                iconv("UTF-8", "windows-874", $columns[2]),
+                                iconv("UTF-8", "windows-874", $columns[3]),
+                                iconv("UTF-8", "windows-874", $columns[4]),
                             ));
                         }
                         $index++;
@@ -72,12 +72,12 @@ for ($i = 0; $i < $total_count; $i++) {
                         if ($index > 0) {
                             $columns = explode('|', $members);
                             dbase_add_record($db, array(
-                                iconv("UTF-8", "tis-620", $columns[0]),
-                                iconv("UTF-8", "tis-620", $columns[1]),
-                                iconv("UTF-8", "tis-620", $columns[2]),
-                                iconv("UTF-8", "tis-620", $columns[3]),
-                                iconv("UTF-8", "tis-620", $columns[4]),
-                                iconv("UTF-8", "tis-620", $columns[5]),
+                                iconv("UTF-8", "windows-874", $columns[0]),
+                                iconv("UTF-8", "windows-874", $columns[1]),
+                                iconv("UTF-8", "windows-874", $columns[2]),
+                                iconv("UTF-8", "windows-874", $columns[3]),
+                                iconv("UTF-8", "windows-874", $columns[4]),
+                                iconv("UTF-8", "windows-874", $columns[5]),
 
                             ));
                         }
@@ -102,18 +102,22 @@ for ($i = 0; $i < $total_count; $i++) {
 
                 while (!feof($file)) {
                     $line_of_text = fgets($file);
+                    // $line_of_text = iconv("windows-1252", "UTF-8", $line_of_text);
+                    echo $line_of_text . "<br>";
                     if (!ctype_space($line_of_text) && $line_of_text != '') {
                         $members = $line_of_text;
+                        // var_dump($members);
                         if ($index > 0) {
                             $columns = explode('|', $members);
-                            echo $columns[3] . "<br>";
                             dbase_add_record($db, array(
-                                iconv("UTF-8", "tis-620", $columns[0]),
-                                iconv("UTF-8", "tis-620", $columns[1]),
-                                iconv("UTF-8", "tis-620", $columns[2]),
-                                iconv("UTF-8", "tis-620", $columns[3] . substr(0, 1) . $columns[3] . substr(1, strlen($columns[3])))
+                                $columns[0],
+                                $columns[1],
+                                $columns[2],
+                                $columns[3]
                             ));
-                            echo $columns[3] . substr(0, 1) . $columns[3] . substr(1, strlen($columns[3]))."<br>";
+                            // echo iconv("windows-874", "UTF-8", $columns[3]);
+                            // echo $columns[2];
+                            // echo $columns[3] . substr(0, 1) . $columns[3] . substr(1, strlen($columns[3]))."<br>";
                         }
                         $index++;
                     }
