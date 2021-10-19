@@ -1,4 +1,4 @@
-<meta http-equiv="Content-Type" content="text/plain; charset=windows-874"/>
+<meta http-equiv="Content-Type" content="text/plain; charset=windows-874" />
 <?php
 
 $files = array_filter($_FILES['fileToUpload']['name']);
@@ -12,31 +12,29 @@ for ($i = 0; $i < $total_count; $i++) {
             mkdir("./uploads/" . $new_path, 0777);
         }
         $newFilePath = "./uploads/" . $new_path . "/" . $_FILES['fileToUpload']['name'][$i];
+        $tempPath = "./uploads/" . $new_path . "/IDXYYMM.dbf";
         echo $new_path . "<br>";
+        copy('./uploads/IDXYYMM.dbf', $tempPath);
         if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-            read($newFilePath);
+            read($newFilePath, $tempPath);
         }
     }
 }
 
-function read($path)
+function read($path, $tempPath)
 {
     $file = fopen($path, "r");
-    $db = dbase_open('./uploads/IDXYYMM.dbf', 2);
+    $db = dbase_open($tempPath, 2);
 
     $index = 0;
     while (!feof($file)) {
         $line_of_text = fgets($file);
-        // $line_of_text = iconv("windows-874", "TIS-620", $line_of_text);
-        // $line_of_text = iconv("windows-874", "TIS-620", $line_of_text);
-        // $line_of_text = iconv("UTF-8", "TIS-620", $line_of_text);
-        echo $line_of_text."<br>";
+        echo $line_of_text . "<br>";
 
-        
+
         if (!ctype_space($line_of_text) && $line_of_text != '') {
 
             $members = explode('\n', $line_of_text);
-            // var_dump($members);
             if ($index != 0) {
                 $columns = explode('|', $members[0]);
                 dbase_add_record($db, array(
@@ -50,13 +48,4 @@ function read($path)
         }
     }
     fclose($file);
-}
-function win874($str){
-    $win874=strpos($str,"windows-874");
-    return $win874;
-}
-
-function utf8($str){
-    $utf8=strpos($str,"UTF-8");
-    return $utf8;
 }
