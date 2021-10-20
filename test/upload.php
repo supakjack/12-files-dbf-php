@@ -4,7 +4,7 @@
 $files = array_filter($_FILES['fileToUpload']['name']);
 $total_count = count($_FILES['fileToUpload']['name']);
 $new_path = uniqid() . date("Y-m-d-H-i-s");
-echo $new_path . "<br>";
+// echo $new_path . "<br>";
 for ($i = 0; $i < $total_count; $i++) {
     $tmpFilePath = $_FILES['fileToUpload']['tmp_name'][$i];
     if ($tmpFilePath != "") {
@@ -13,7 +13,7 @@ for ($i = 0; $i < $total_count; $i++) {
         }
         $newFilePath = "./uploads/" . $new_path . "/" . $_FILES['fileToUpload']['name'][$i];
         $tempPath = "./uploads/" . $new_path . "/IDXYYMM.dbf";
-        echo $new_path . "<br>";
+        // echo $new_path . "<br>";
         copy('./uploads/IDXYYMM.dbf', $tempPath);
         if (move_uploaded_file($tmpFilePath, $newFilePath)) {
             read($newFilePath, $tempPath);
@@ -21,15 +21,15 @@ for ($i = 0; $i < $total_count; $i++) {
     }
 }
 
-function read($path, $tempPath)
+function read($newFilePath, $tempPath)
 {
-    $file = fopen($path, "r");
+    $file = fopen($newFilePath, "r");
     $db = dbase_open($tempPath, 2);
 
     $index = 0;
     while (!feof($file)) {
         $line_of_text = fgets($file);
-        echo $line_of_text . "<br>";
+        // echo $line_of_text . "<br>";
 
 
         if (!ctype_space($line_of_text) && $line_of_text != '') {
